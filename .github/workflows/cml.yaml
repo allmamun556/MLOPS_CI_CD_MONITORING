@@ -26,7 +26,7 @@ jobs:
 
           
           # Collect model metrics
-          echo "## Model Metrics" > report.md
+          echo "## Model Metfrics" > report.md
           cat metrics.txt >> report.md
 
           # Post metrics as a comment to the GitHub PR or commit
