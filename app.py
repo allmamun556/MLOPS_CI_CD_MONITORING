@@ -43,7 +43,7 @@ app.layout = html.Div([
         
         html.Label("Active Power Difference (kW)"),
         dcc.Slider(id='active-power-diff', min=-1000, max=1000, step=1, value=0),
-    ], style={'columnCount': 2}),
+    ], style={'columnCount': 9}),
     
     # Display user input data
     html.H2("User Input:"),
