@@ -1,9 +1,10 @@
 name: Run Jupyter Notebook on Push
 
-on:
-  push:
-    branches:
-      - master  # Change to 'main' if 'master' is not your default branch
+name: mlops-exaple-tensorflow-regression
+permissions:
+  id-token: write
+  contents: write
+  on: [push]
 
 jobs:
   run-notebook:
