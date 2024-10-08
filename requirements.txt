@@ -4,4 +4,4 @@ matplotlib
 mlflow
 seaborn
 scikit-learn
-statsmodel
+statsmodels
