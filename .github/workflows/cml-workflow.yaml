@@ -36,6 +36,6 @@ jobs:
         MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}  # Ensure these secrets are set in your GitHub repository
 
     # Step 5: Run the notebook
-    - name: Run notebook
+    - name: Run notebooks
       run: |
         jupyter nbconvert --execute --to notebook --inplace modeling-wind-power-forecasting.ipynb || cat modeling-wind-power-forecasting.ipynb
