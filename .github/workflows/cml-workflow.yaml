@@ -1,41 +1,50 @@
-name: Run Jupyter Notebook on Push
+name: Run Experiments and Generate CML Report
 
 on:
   push:
     branches:
-      - main  # Ensure this matches your repository's branch (or use 'master' if that's your default branch)
+      - master  # Trigger workflow on pushes to the master branch
 
 jobs:
   run-notebook:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
+      # Set up Python environment
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
 
-    # Step 3: Install dependencies
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Make sure requirements.txt is in the repository root
-
-    # Debug: Check installed packages
-    - name: List installed packagess
-      run: pip freeze
-
-    # Step 4: Set environment variables for MLflow (DagsHub)
-    - name: Set DagsHub MLflow credentials
-      run: echo "Setting MLflow credentials"  # Using a run command here just to output some text for clarity
-      env:
-        MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}  # Ensure these secrets are set in your GitHub repository
-        MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}  # Ensure these secrets are set in your GitHub repository
-
-    # Step 5: Run the notebook
-    - name: Run notebooks
-      run: |
-        jupyter nbconvert --execute --to notebook --inplace modeling-wind-power-forecasting.ipynb || cat modeling-wind-power-forecasting.ipynb
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install jupyter dvc cml mlflow
+      # Run the Jupyter Notebook
+      - name: Run Jupyter Notebook
+        run: |
+          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
+      # Track experiments with MLflow on DagsHub
+      - name: Log Metrics to MLflow (DagsHub)
+        env:
+          MLFLOW_TRACKING_URI: https://dagshub.com/username/projectname.mlflow
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_API_TOKEN }}
+        run: |
+          python evaluate_model.py  # Assuming you log metrics from this script
+      # Generate CML report
+      - name: Create CML Report
+        run: |
+          cml pr --metrics-fmt markdown
+      # Push the CML report to GitHub
+      - name: Commit and Push CML Report
+        run: |
+          git config --global user.name "Your Name"
+          git config --global user.email "you@example.com"
+          git add . && git commit -m "Auto CML Report"
+          git push
