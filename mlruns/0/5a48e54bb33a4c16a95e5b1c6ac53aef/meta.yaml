@@ -1,0 +1,15 @@
+artifact_uri: file:///home/mamunds/MLOPS_CI_CD_MONITORING/mlruns/0/5a48e54bb33a4c16a95e5b1c6ac53aef/artifacts
+end_time: 1728386483378
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5a48e54bb33a4c16a95e5b1c6ac53aef
+run_name: Exponential Smoothing
+run_uuid: 5a48e54bb33a4c16a95e5b1c6ac53aef
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728386483369
+status: 3
+tags: []
+user_id: mamunds
