@@ -25,7 +25,7 @@ jobs:
         pip install -r requirements.txt  # Make sure requirements.txt is in the repository root
 
     # Debug: Check installed packages
-    - name: List installed packages
+    - name: List installed packagess
       run: pip freeze
 
     # Step 4: Set environment variables for MLflow (DagsHub)
