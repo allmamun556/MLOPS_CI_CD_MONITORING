@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-          pip install jupyter dvc cml mlflow
+         # pip install jupyter dvc cml mlflow
 
       # Run the Jupyter Notebook
       - name: Run Jupyter Notebook
