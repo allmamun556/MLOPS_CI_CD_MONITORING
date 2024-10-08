@@ -5,3 +5,4 @@ mlflow
 seaborn
 scikit-learn
 statsmodels
+jupyter
