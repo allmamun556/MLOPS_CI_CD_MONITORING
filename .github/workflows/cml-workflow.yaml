@@ -1,10 +1,9 @@
-name: Run Jupyter Notebook on Push
+name: mlops-example-tensorflow-regression
 
-name: mlops-exaple-tensorflow-regression
-permissions:
-  id-token: write
-  contents: write
-  on: [push]
+on:
+  push:
+    branches:
+      - main  # or master, depending on your default branch
 
 jobs:
   run-notebook:
@@ -12,12 +11,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
-       python-version: '3.10'
+        python-version: '3.10'
 
     # Step 3: Install dependencies
     - name: Install dependencies
@@ -37,8 +36,6 @@ jobs:
     - name: Run notebook
       run: |
         jupyter nbconvert --execute --to notebook --inplace modeling-wind-power-forecasting.ipynb
-        # OR use papermill to run the notebook:
-        # papermill /path/to/your/notebook.ipynb /path/to/your/output.ipynb
 
     # Optional: Save the modified notebook as an artifact
     #- name: Upload Notebook
