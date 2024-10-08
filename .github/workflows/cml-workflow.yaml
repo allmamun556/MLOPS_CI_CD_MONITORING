@@ -3,7 +3,7 @@ name: Run Jupyter Notebook on Push
 on:
   push:
     branches:
-      - main  # or any branch you want to monitor
+      - main  # Change to 'main' if 'master' is not your default branch
 
 jobs:
   run-notebook:
