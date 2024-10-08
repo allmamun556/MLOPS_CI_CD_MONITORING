@@ -1,8 +1,11 @@
-name: mlops-exaple-tensorflow-regression
+name: mlops-example-tensorflow-regression
+
 permissions:
   id-token: write
   contents: write
+
 on: [push]
+
 jobs:
   run:
     runs-on: [ubuntu-latest]
@@ -13,12 +16,15 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-
-          # Your ML workflow goes here
+          # Install dependencies
           pip install -r requirements.txt
-          upyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
           
+          # Run Jupyter notebook
+          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
+          
+          # Collect model metrics
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
 
-          cml-send-comment report.md
+          # Post metrics as a comment to the GitHub PR or commit
+          cml comment create report.md
