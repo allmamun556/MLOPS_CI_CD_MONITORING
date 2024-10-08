@@ -1,0 +1,15 @@
+artifact_uri: file:///home/mamunds/MLOPS_CI_CD_MONITORING/mlruns/0/ace35657a9e942fd84ce8dbcdde9c280/artifacts
+end_time: 1728394056956
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ace35657a9e942fd84ce8dbcdde9c280
+run_name: ARIMA
+run_uuid: ace35657a9e942fd84ce8dbcdde9c280
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728394056921
+status: 3
+tags: []
+user_id: mamunds
