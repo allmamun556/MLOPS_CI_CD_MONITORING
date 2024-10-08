@@ -1,54 +1,49 @@
-name: Run Experiments and Generate CML Report
+name: Run Jupyter Notebook on Push
 
 on:
   push:
     branches:
-      - master  # Trigger workflow on pushes to the master branch
+      - main  # or any branch you want to monitor
 
 jobs:
   run-notebook:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
-      - name: Checkout Code
-        uses: actions/checkout@v2
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # Set up Python environment
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        #with:
-         # python-version: '3.10'
+    # Step 2: Set up Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'  # or the Python version your notebook requires
 
-      # Install dependencies
-      - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
-         # pip install jupyter dvc cml mlflow
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Ensure you have a `requirements.txt` file listing necessary packages
+        pip install jupyter nbconvert  # Required to run notebooks
+        pip install papermill  # Alternatively, to execute and parametrize the notebook
 
-      # Run the Jupyter Notebook
-      - name: Run Jupyter Notebook
-        run: |
-          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
+    # Step 4: Set environment variables for MLflow (DagsHub)
+    - name: Set DagsHub MLflow credentials
+      env:
+        MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}  # Add this as a secret in GitHub
+        MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}  # Add this as a secret in GitHub
 
-      # Track experiments with MLflow on DagsHub
-      - name: Log Metrics to MLflow (DagsHub)
-        env:
-          MLFLOW_TRACKING_URI: https://dagshub.com/username/projectname.mlflow
-          MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
-          MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_API_TOKEN }}
-        run: |
-          python evaluate_model.py  # Assuming you log metrics from this script
+    # Step 5: Run the notebook
+    - name: Run notebook
+      run: |
+        jupyter nbconvert --execute --to notebook --inplace /path/to/your/notebook.ipynb
+        # OR use papermill to run the notebook:
+        # papermill /path/to/your/notebook.ipynb /path/to/your/output.ipynb
 
-      # Generate CML report
-      - name: Create CML Report
-        run: |
-          cml pr --metrics-fmt markdown
-
-      # Push the CML report to GitHub
-      - name: Commit and Push CML Report
-        run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "you@example.com"
-          git add . && git commit -m "Auto CML Report"
-          git push
+    # Optional: Save the modified notebook as an artifact
+    #- name: Upload Notebook
+     # uses: actions/upload-artifact@v3
+      #with:
+       # name: executed-notebook
+       # path: /path/to/your/notebook.ipynb

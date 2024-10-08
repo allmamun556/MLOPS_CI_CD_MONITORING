@@ -1,8 +1,10 @@
 numpy 
 pandas 
 matplotlib 
-mlflow
+mlflow==1.26.1
 seaborn
 scikit-learn
 statsmodels
 jupyter
+nbconvert
+papermill
