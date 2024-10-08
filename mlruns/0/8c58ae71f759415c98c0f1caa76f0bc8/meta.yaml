@@ -1,0 +1,15 @@
+artifact_uri: file:///home/mamunds/MLOPS_CI_CD_MONITORING/mlruns/0/8c58ae71f759415c98c0f1caa76f0bc8/artifacts
+end_time: 1728394056995
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8c58ae71f759415c98c0f1caa76f0bc8
+run_name: Random Forest
+run_uuid: 8c58ae71f759415c98c0f1caa76f0bc8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728394056979
+status: 3
+tags: []
+user_id: mamunds
