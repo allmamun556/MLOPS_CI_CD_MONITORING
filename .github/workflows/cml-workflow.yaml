@@ -3,7 +3,7 @@ name: mlops-example-tensorflow-regression
 on:
   push:
     branches:
-      - main  # or master, depending on your default branch
+      - master  # or master, depending on your default branch
 
 jobs:
   run-notebook:
