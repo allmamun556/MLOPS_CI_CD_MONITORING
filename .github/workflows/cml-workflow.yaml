@@ -3,7 +3,7 @@ name: Run Jupyter Notebook on Push
 on:
   push:
     branches:
-      - main  # or any branch you want to monitor
+      - master  # or any branch you want to monitor
 
 jobs:
   run-notebook:
@@ -37,7 +37,7 @@ jobs:
     # Step 5: Run the notebook
     - name: Run notebook
       run: |
-        jupyter nbconvert --execute --to notebook --inplace /path/to/your/notebook.ipynb
+        jupyter nbconvert --execute --to notebook --inplace modeling-wind-power-forecasting.ipynb
         # OR use papermill to run the notebook:
         # papermill /path/to/your/notebook.ipynb /path/to/your/output.ipynb
 
