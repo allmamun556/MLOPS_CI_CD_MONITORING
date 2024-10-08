@@ -3,7 +3,7 @@ name: Run Experiments and Generate CML Report
 on:
   push:
     branches:
-      - master  # Trigger workflow on pushes to the master branch
+      - master  # Trigger workflow on pushes to the master branch 
 
 jobs:
   run-notebook:
