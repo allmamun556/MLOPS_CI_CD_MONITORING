@@ -7,15 +7,17 @@ on: [push]
 
 jobs:
   run:
-    runs-on: [ubuntu-latest]
-    container: ubuntu:20.04  # Ubuntu 20.04 comes with GLIBC 2.31
+    runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      - uses: actions/checkout@v2
-      - name: 'Install dependencies'
-        run: |
-          apt-get update && apt-get install -y python3-pip
-          pip install -r requirements.txt
-          pip3 install cml  # Install CML using pip
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
+
+
       - name: 'Train my model'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
