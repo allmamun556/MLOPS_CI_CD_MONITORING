@@ -108,6 +108,7 @@ def update_output(bearing_shaft_temperature, blade1_pitch_angle, gearbox_oil_tem
     
     # Update layout of the figure
     fig.update_layout(title="Input Features", yaxis_title="Value", xaxis_title="Feature")
+    print('mamun')
     
     return input_table, f"{prediction:.2f} kW", fig
 
