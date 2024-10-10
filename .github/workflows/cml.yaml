@@ -15,6 +15,7 @@ jobs:
         run: |
           apt-get update && apt-get install -y python3-pip
           pip install -r requirements.txt
+          pip3 install cml  # Install CML using pip
       - name: 'Train my model'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
