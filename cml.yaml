@@ -1,0 +1,33 @@
+# .github/workflows/cml.yaml
+name: CML Report
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install cml
+
+    - name: Run training script
+      run: |
+        python train_model.py
+
+    - name: Generate CML report
+      run: |
+        cat metrics.txt
+        cml comment create metrics.txt --publish
