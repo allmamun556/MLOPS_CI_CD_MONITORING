@@ -20,13 +20,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 train_model.py
-          echo "## Model Metrics" > report.md
-          cat metrics.txt >> report.md
-          cml-send-comment report.md
-          
+
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
 
           cml-send-comment report.md
+          
+          # echo "## Model Metrics" > report.md
+          # cat metrics.txt >> report.md
+
+          # cml-send-comment report.md
 
 
