@@ -1,33 +1,27 @@
 # .github/workflows/cml.yaml
 name: CML Report
-
-on:
-  push:
-    branches:
-      - master
+permissions:
+  id-token: write
+  contents: write
+on: [push]
 
 jobs:
-  run-and-report:
-    runs-on: ubuntu-latest
-
+  run:
+    runs-on: [ubuntu-latest]
+    container: docker://dvcorg/cml-py3:latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: 'Train my model'
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+          # Your ML workflow goes here
+          pip install -r requirements.txt
+          python train_model.py
+          
+          echo "## Model Metrics" > report.md
+          cat metrics.txt >> report.md
 
-    - name: Install dependencies
-      run: |
-        pip install cml
+          cml-send-comment report.md
 
-    - name: Run training scripthhh
-      run: |
-        python train_model.py
-
-    - name: Generate CML report
-      run: |
-        cat metrics.txt
-        cml comment create metrics.txt --publish
