@@ -21,7 +21,7 @@ jobs:
           pip3 install -r requirements.txt
       - name: 'Run your workflow'
         run: |
-          # Your ML workflow goes here
+          # Your ML workflow goees here
           jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
 
           
