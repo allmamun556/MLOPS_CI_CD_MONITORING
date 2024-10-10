@@ -1,3 +1,10 @@
+# .github/workflows/cml.yaml
+name: CML Report
+permissions:
+  id-token: write
+  contents: write
+on: [push]
+
 jobs:
   run:
     runs-on: [ubuntu-latest]
@@ -25,3 +32,5 @@ jobs:
           cat metrics.txt >> report.md
 
           cml-send-comment report.md
+
+
