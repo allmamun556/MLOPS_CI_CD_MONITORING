@@ -48,30 +48,4 @@ jobs:
       #     git config --global user.email "you@example.com"
       #     git add . && git commit -m "Auto CML Report"
       #     git push
-  run:
-    runs-on: ubuntu-latest
-    #container: docker://ghcr.io/iterative/cml:0-dvc2-base1
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - uses: iterative/setup-cml@v1
-      - uses: iterative/setup-dvc@v1
-
-
-      - name: 'Train my model'
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 train_model.py
-
-          echo "## Model Metrics" > report.md
-          cat metrics.txt >> report.md
-
-          cml-send-comment report.md
-          
-          # echo "## Model Metrics" > report.md
-          # cat metrics.txt >> report.md
-
-          # cml-send-comment report.md    
+  
