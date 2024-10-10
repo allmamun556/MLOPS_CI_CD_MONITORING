@@ -23,7 +23,7 @@ jobs:
       run: |
         pip install cml
 
-    - name: Run training script
+    - name: Run training scripthhh
       run: |
         python train_model.py
 
