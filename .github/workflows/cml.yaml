@@ -22,7 +22,7 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 train_model.py
+          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
 
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
