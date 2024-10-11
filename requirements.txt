@@ -2,6 +2,7 @@ numpy
 pandas 
 matplotlib 
 mlflow==1.26.1
+tensorflow
 seaborn
 scikit-learn
 statsmodels
