@@ -17,7 +17,11 @@ jobs:
       - uses: iterative/setup-cml@v1
       #- uses: iterative/setup-dvc@v1
 
-
+       # Install dependencies
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          
       - name: 'Train my model'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
