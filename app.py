@@ -9,7 +9,7 @@ model = pickle.load(open('random_forest_model.pkl', 'rb'))
 
 
 # Streamlit App
-st.title("Wind Power Prediction App")
+st.title("Wind Power Prediction")
 
 # Sidebar for user input
 st.sidebar.header("Input Features")
