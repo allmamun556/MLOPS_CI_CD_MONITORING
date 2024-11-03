@@ -21,6 +21,10 @@ jobs:
           git rm --cached Turbine_Data.csv || echo "Turbine_Data.csv was not tracked"
           git add .gitignore
           git commit -m "Ignore Turbine_Data.csv" || echo "No changes to commit"
+          pip install git-filter-repo
+          git filter-repo --path Turbine_Data.csv --invert-paths
+
+
 
       - name: Push to Hugging Face Hub
         env:
