@@ -16,14 +16,6 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      # Remove large files to prevent push errors
-      - name: Remove large files
-        run: |
-          git rm --cached Turbine_Data.csv || true
-          echo "Turbine_Data.csv" >> .gitignore
-          git add .gitignore
-          git commit -m "Exclude large files from push" || true
-
       - name: Push to Hugging Face Hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
