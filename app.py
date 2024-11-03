@@ -1,118 +1,55 @@
-import dash
-from dash import dcc, html
-from dash.dependencies import Input, Output
+import streamlit as st
 import pandas as pd
 import pickle
-import plotly.graph_objects as go
+from sklearn.ensemble import RandomForestRegressor
 
 # Load the trained Random Forest model (replace 'random_forest_model.pkl' with the actual model file path)
 model = pickle.load(open('random_forest_model.pkl', 'rb'))
 
-# Create a Dash application
-app = dash.Dash(__name__)
 
-# Define the app layout
-app.layout = html.Div([
-    html.H1("Wind Power Prediction App"),
-    
-    # Sliders for input features
-    html.Div([
-        html.Label("Bearing Shaft Temperature (°C)"),
-        dcc.Slider(id='bearing-shaft-temperature', min=-10, max=100, step=1, value=50),
-        
-        html.Label("Blade 1 Pitch Angle (degrees)"),
-        dcc.Slider(id='blade1-pitch-angle', min=0, max=90, step=1, value=45),
-        
-        html.Label("Gearbox Oil Temperature (°C)"),
-        dcc.Slider(id='gearbox-oil-temperature', min=-10, max=120, step=1, value=60),
-        
-        html.Label("Generator RPM"),
-        dcc.Slider(id='generator-rpm', min=0, max=3000, step=10, value=1500),
-        
-        html.Label("Generator Winding 1 Temperature (°C)"),
-        dcc.Slider(id='generator-winding1-temperature', min=-10, max=150, step=1, value=75),
-        
-        html.Label("Hub Temperature (°C)"),
-        dcc.Slider(id='hub-temperature', min=-10, max=120, step=1, value=60),
-        
-        html.Label("Reactive Power (kVAR)"),
-        dcc.Slider(id='reactive-power', min=-500, max=500, step=1, value=0),
-        
-        html.Label("Wind Speed (m/s)"),
-        dcc.Slider(id='wind-speed', min=0, max=25, step=0.1, value=10),
-        
-        html.Label("Active Power Difference (kW)"),
-        dcc.Slider(id='active-power-diff', min=-1000, max=1000, step=1, value=0),
-    ], style={'columnCount': 9}),
-    
-    # Display user input data
-    html.H2("User Input:"),
-    html.Div(id='user-input'),
+# Streamlit App
+st.title("Wind Power Prediction App")
 
-    # Display predicted output
-    html.H2("Predicted Wind Power Output (kW):"),
-    html.Div(id='prediction-output'),
-    
-    # Graph to display the user inputs in tabular form
-    dcc.Graph(id='input-graph')
-])
+# Sidebar for user input
+st.sidebar.header("Input Features")
+def user_input_features():
+    bearing_shaft_temperature = st.sidebar.slider('Bearing Shaft Temperature (°C)', -10.0, 100.0, 50.0)
+    blade1_pitch_angle = st.sidebar.slider('Blade 1 Pitch Angle (degrees)', 0.0, 90.0, 45.0)
+    gearbox_oil_temperature = st.sidebar.slider('Gearbox Oil Temperature (°C)', -10.0, 120.0, 60.0)
+    generator_rpm = st.sidebar.slider('Generator RPM', 0, 3000, 1500)
+    generator_winding1_temperature = st.sidebar.slider('Generator Winding 1 Temperature (°C)', -10.0, 150.0, 75.0)
+    hub_temperature = st.sidebar.slider('Hub Temperature (°C)', -10.0, 120.0, 60.0)
+    reactive_power = st.sidebar.slider('Reactive Power (kVAR)', -500.0, 500.0, 0.0)
+    wind_speed = st.sidebar.slider('Wind Speed (m/s)', 0.0, 25.0, 10.0)
+    active_power_diff = st.sidebar.slider('Active Power Difference (kW)', -1000.0, 1000.0, 0.0)
 
-# Define callback to update the prediction and input display
-@app.callback(
-    [Output('user-input', 'children'),
-     Output('prediction-output', 'children'),
-     Output('input-graph', 'figure')],
-    [Input('bearing-shaft-temperature', 'value'),
-     Input('blade1-pitch-angle', 'value'),
-     Input('gearbox-oil-temperature', 'value'),
-     Input('generator-rpm', 'value'),
-     Input('generator-winding1-temperature', 'value'),
-     Input('hub-temperature', 'value'),
-     Input('reactive-power', 'value'),
-     Input('wind-speed', 'value'),
-     Input('active-power-diff', 'value')]
-)
-def update_output(bearing_shaft_temperature, blade1_pitch_angle, gearbox_oil_temperature, 
-                  generator_rpm, generator_winding1_temperature, hub_temperature,
-                  reactive_power, wind_speed, active_power_diff):
-    
     # Store the input data in a dictionary
     data = {
-        'BearingShaftTemperature': [bearing_shaft_temperature],
-        'Blade1PitchAngle': [blade1_pitch_angle],
-        'GearboxOilTemperature': [gearbox_oil_temperature],
-        'GeneratorRPM': [generator_rpm],
-        'GeneratorWinding1Temperature': [generator_winding1_temperature],
-        'HubTemperature': [hub_temperature],
-        'ReactivePower': [reactive_power],
-        'WindSpeed': [wind_speed],
-        'active_power_diff': [active_power_diff]
+        'BearingShaftTemperature': bearing_shaft_temperature,
+        'Blade1PitchAngle': blade1_pitch_angle,
+        'GearboxOilTemperature': gearbox_oil_temperature,
+        'GeneratorRPM': generator_rpm,
+        'GeneratorWinding1Temperature': generator_winding1_temperature,
+        'HubTemperature': hub_temperature,
+        'ReactivePower': reactive_power,
+        'WindSpeed': wind_speed,
+        'active_power_diff': active_power_diff
     }
     
-    # Convert to DataFrame
-    input_df = pd.DataFrame(data)
+    # Convert dictionary to a pandas DataFrame
+    features = pd.DataFrame(data, index=[0])
+    return features
 
-    # Make prediction using the loaded model
-    prediction = model.predict(input_df)[0]
+# Get the user input
+input_df = user_input_features()
 
-    # Generate a table-like display of user input
-    input_table = html.Table([
-        html.Tr([html.Th(col) for col in input_df.columns]),
-        html.Tr([html.Td(input_df[col][0]) for col in input_df.columns])
-    ])
+# Main panel to show user input
+st.subheader('User Input:')
+st.write(input_df)
 
-    # Create a bar chart of input values for visualization
-    fig = go.Figure(data=[
-        go.Bar(name='Input Features', x=input_df.columns, y=input_df.iloc[0])
-    ])
-    
-    # Update layout of the figure
-    fig.update_layout(title="Input Features", yaxis_title="Value", xaxis_title="Feature")
-    print('mamun')
-    
-    return input_table, f"{prediction:.2f} kW", fig
+# Make prediction using the model
+prediction = model.predict(input_df)
 
-
-# Run the Dash app
-if __name__ == '__main__':
-    app.run_server(debug=True)
+# Display the result
+st.subheader('Predicted Wind Power Output (kW):')
+st.write(prediction[0])
