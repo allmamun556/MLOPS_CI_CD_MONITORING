@@ -15,12 +15,23 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - name: Exclude Turbine_Data.csv from push
-        run: git rm --cached Turbine_Data.csv  # This removes it from the index but keeps it in the working directory
-
-      - name: Commit changes without Turbine_Data.csv
+      # Ensure Git LFS is initialized (necessary if working with large files)
+      - name: Initialize Git LFS
         run: |
-          git commit -m "Exclude Turbine_Data.csv from push" || echo "No changes to commit"
+          git lfs install
+          git lfs track "Turbine_Data.csv"
+          git add .gitattributes
+          git commit -m "Track large files with Git LFS" || echo "No changes to commit"
+
+      # Exclude Turbine_Data.csv from the commit
+      - name: Remove Turbine_Data.csv from history if it exists
+        run: |
+          if [ -f "Turbine_Data.csv" ]; then
+            git rm --cached Turbine_Data.csv
+            git commit -m "Exclude Turbine_Data.csv from push" || echo "No changes to commit"
+          else
+            echo "Turbine_Data.csv does not exist in the repo."
+          fi
 
       - name: Push to Hugging Face Hub
         env:
