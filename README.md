@@ -1,12 +1,10 @@
 ---
-title: mlops
-emoji: 📹
+title: Your App Title
+emoji: 🚀
 colorFrom: blue
-colorTo: red
+colorTo: green
 sdk: streamlit
+sdk_version: 1.39.0
 app_file: app.py
 pinned: false
 ---
-
-# image2textapp
-demo of 🤗 spaces deployment of a streamlit python app
