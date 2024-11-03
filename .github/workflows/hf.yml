@@ -1,4 +1,4 @@
-name: Sync to Hugging Face hub
+name: Sync to Hugging Face Hub
 
 on:
   push:
@@ -11,10 +11,26 @@ jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Push to hub
+          lfs: true
+
+      # Test if the Hugging Face token works by making an authenticated request
+      - name: Check Hugging Face Token
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          # Test the token by listing the user's spaces (requires `read` permission)
+          response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $HF_TOKEN" https://huggingface.co/api/whoami-v2)
+          if [ "$response" -eq 200 ]; then
+            echo "Authentication successful. Token is valid."
+          else
+            echo "Authentication failed. Please check your HF_TOKEN."
+            exit 1
+          fi
+
+      - name: Push to Hugging Face Hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: git push --force https://mamunds:$HF_TOKEN@huggingface.co/spaces/mamunds/mlops master
