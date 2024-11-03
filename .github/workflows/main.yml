@@ -15,23 +15,12 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      # Ensure Git LFS is initialized (necessary if working with large files)
-      - name: Initialize Git LFS
+      - name: Add Turbine_Data.csv to .gitignore
         run: |
-          git lfs install
-          git lfs track "Turbine_Data.csv"
-          git add .gitattributes
-          git commit -m "Track large files with Git LFS" || echo "No changes to commit"
-
-      # Exclude Turbine_Data.csv from the commit
-      - name: Remove Turbine_Data.csv from history if it exists
-        run: |
-          if [ -f "Turbine_Data.csv" ]; then
-            git rm --cached Turbine_Data.csv
-            git commit -m "Exclude Turbine_Data.csv from push" || echo "No changes to commit"
-          else
-            echo "Turbine_Data.csv does not exist in the repo."
-          fi
+          echo "Turbine_Data.csv" >> .gitignore
+          git rm --cached Turbine_Data.csv || echo "Turbine_Data.csv was not tracked"
+          git add .gitignore
+          git commit -m "Ignore Turbine_Data.csv" || echo "No changes to commit"
 
       - name: Push to Hugging Face Hub
         env:
