@@ -14,7 +14,15 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - name: Push to hub
+
+      - name: Exclude Turbine_Data.csv from push
+        run: git rm --cached Turbine_Data.csv  # This removes it from the index but keeps it in the working directory
+
+      - name: Commit changes without Turbine_Data.csv
+        run: |
+          git commit -m "Exclude Turbine_Data.csv from push" || echo "No changes to commit"
+
+      - name: Push to Hugging Face Hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: git push --force https://mamunds:$HF_TOKEN@huggingface.co/spaces/mamunds/mlops master
