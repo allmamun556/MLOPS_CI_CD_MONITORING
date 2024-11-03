@@ -1,4 +1,12 @@
-# MLOPS_CI_CD_MONITORING
-# Secondt
-## Data Link
-* https://www.kaggle.com/code/pedrorichena/modeling-wind-power-forecasting
+---
+title: mlops
+emoji: 📹
+colorFrom: blue
+colorTo: red
+sdk: streamlit
+app_file: app.py
+pinned: false
+---
+
+# image2textapp
+demo of 🤗 spaces deployment of a streamlit python app
