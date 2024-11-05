@@ -37,7 +37,7 @@ jobs:
           #PYTHONUNBUFFERED: 1 
           
         run: |
-          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
+          jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 notebooks/ml_training_notebook.ipynb
 
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
