@@ -40,12 +40,12 @@ jobs:
           jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 notebooks/ml_training_notebook.ipynb
 
           echo "## Model Metrics" > report.md
-          cat notebook/metrics.txt >> report.md
+          cat notebooks/metrics.txt >> report.md
 
           cml-send-comment report.md
           
           # echo "## Model Metrics" > report.md
-          # cat notebook/metrics.txt >> report.md
+          # cat notebooks/metrics.txt >> report.md
 
           # cml-send-comment report.md
 
