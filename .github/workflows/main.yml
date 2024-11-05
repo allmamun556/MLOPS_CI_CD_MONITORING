@@ -18,6 +18,14 @@ jobs:
  
 
       # Remove large files to prevent push errors
+      - name: Install dependencies
+        run: |
+          pip install pandas  # Install pandas if not in requirements.txt
+
+      - name: Run unit tests
+        run: |
+          python -m unittest discover tests  # Runs all tests in the "test" directory    
+
       - name: Remove large files
         run: |
           git rm --cached Turbine_Data.csv || true
