@@ -10,11 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     #container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true  # This ensures that Git LFS files are downloaded
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-          lfs: true
       - uses: iterative/setup-cml@v1
       #- uses: iterative/setup-dvc@v1
 
