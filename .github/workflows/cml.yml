@@ -11,6 +11,9 @@ jobs:
     #container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
       - uses: actions/checkout@v3
+         with:
+          fetch-depth: 0
+          lfs: true
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
