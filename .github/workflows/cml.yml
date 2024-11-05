@@ -21,12 +21,17 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
+
+      - name: Check Data Columns
+        run: |
+          python -c "import pandas as pd; data = pd.read_csv('data/Turbine_Data.csv'); print(data.columns)"    
           
       - name: 'Train my model'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         
-          PYTHONUNBUFFERED: 1 
+          #PYTHONUNBUFFERED: 1 
+          
         run: |
           jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 modeling-wind-power-forecasting.ipynb
 
