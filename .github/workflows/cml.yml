@@ -30,7 +30,7 @@ jobs:
         run: |
           python -c "import pandas as pd; data = pd.read_csv('data/Turbine_Data.csv'); print(data.columns)"    
           
-      - name: 'Train my model'
+      - name: 'Create CML report'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         
