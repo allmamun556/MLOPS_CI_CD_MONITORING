@@ -1,3 +1,5 @@
+""" This  script is written to demonstrate how evidently ai could be used with streamlit application to monitor a ML model."""
+
 import streamlit as st
 import pandas as pd
 from evidently.test_suite import TestSuite
