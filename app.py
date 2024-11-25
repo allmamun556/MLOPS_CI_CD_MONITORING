@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 from sklearn.ensemble import RandomForestRegressor
 
-# Load the trained Random Forest model (replace 'random_forest_model.pkl' with the actual model file path)
+
 model = pickle.load(open('random_forest_model.pkl', 'rb'))
 
 
