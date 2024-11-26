@@ -166,3 +166,4 @@ cython_debug/
 #.idea/
 /data
 notebooks/
+random_forest_model.pkl
