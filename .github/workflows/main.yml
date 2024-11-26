@@ -27,7 +27,7 @@ jobs:
           pip install dvc[s3] 
 
        # Set up DVC (for DagsHub storage)
-      - name: Set up DVC
+      - name: Set up DVC ss
         run: |
           # Configure DVC remote to use DagsHub as storage
           dvc remote add origin s3://dvc
