@@ -15,8 +15,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      # with:
-      #   lfs: true  # Ensures LFS files are downloaded
+      with:
+        lfs: true  # Ensures LFS files are downloaded"
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -33,7 +33,7 @@ jobs:
     - name: Set up DVC
       run: |
         # Configure DVC remote to use DagsHub as storage
-    #    dvc remote add origin s3://dvc
+        dvc remote add origin s3://dvc
         dvc remote add -d dagshub-remote https://dagshub.com/<username>/<repo_name>.dvc
         dvc remote modify origin endpointurl https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.s3
         dvc remote modify origin --local access_key_id e93226059eb069c73f4c2738187b0a881fb403fa
