@@ -40,7 +40,7 @@ jobs:
     # Pull data from DVC remote (DagsHub)
     - name: Pull data from DVC remote
       run: |
-        dvc pull  # Pull data from the configured remote (DagsHub)    
+        dvc pull -r origin  # Pull data from the configured remote (DagsHub)    
 
     - name: Run Data Loader
       run: python src/data_loader.py
