@@ -21,6 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pandas  # Install pandas if not in requirements.txt
+          pip install dvc[s3] 
 
       - name: Set up DVC
         run: |
