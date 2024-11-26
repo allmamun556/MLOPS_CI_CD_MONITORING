@@ -17,19 +17,23 @@ jobs:
       # Remove large files to prevent push errors
       - name: Install dependenciess
         run: |
+          python -m pip install --upgrade pip
           pip install pandas  # Install pandas if not in requirements.txt
           pip install dvc[s3] 
 
+       # Set up DVC (for DagsHub storage)
       - name: Set up DVC
         run: |
+          # Configure DVC remote to use DagsHub as storage
           dvc remote add origin s3://dvc
           dvc remote modify origin endpointurl https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.s3
           dvc remote modify origin --local access_key_id ${{ secrets.DVC_ACCESS_KEY_ID }}
-          dvc remote modify origin --local secret_access_key ${{ secrets.DVC_SECRET_ACCESS_KEY }} 
+          dvc remote modify origin --local secret_access_key ${{ secrets.DVC_SECRET_ACCESS_KEY }}
 
+      # Pull data from DVC remote (DagsHub)
       - name: Pull data from DVC remote
         run: |
-          dvc pull -r origin  # Pull data from the configured remote (DagsHub)          
+          dvc pull -r origin  # Pull data from the configured remote (DagsHub)         
 
       - name: Run unit tests
         run: |
