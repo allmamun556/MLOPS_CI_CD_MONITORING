@@ -44,12 +44,13 @@ jobs:
         run: |
           python -m unittest discover tests  # Runs all tests in the "test" directory    
 
-      - name: Remove large files
+      - name: Exclude unnecessary files
         run: |
-          git rm --cached Turbine_Data.csv || true
-          echo "Turbine_Data.csv" >> .gitignore
+          echo "notebooks/" >> .gitignore  # Add notebooks folder to .gitignore
+          echo "Turbine_Data.csv" >> .gitignore  # Exclude additional files if needed
+          git rm -r --cached notebooks || true  # Remove the folder from Git cache
           git add .gitignore
-          git commit -m "Exclude large files from push" || true
+          git commit -m "Exclude unnecessary files and folders" || true
 
       # Step 8: Ensure full Git history (convert shallow clone)
       - name: Ensure full Git history
