@@ -166,4 +166,7 @@ cython_debug/
 #.idea/
 /data
 notebooks/
+<<<<<<< HEAD
 random_forest_model.pkl
+=======
+>>>>>>> d9d94f813812d36c628c92ad1f156d49aed7d7ea
