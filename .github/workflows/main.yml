@@ -42,7 +42,11 @@ jobs:
 
       - name: Run unit tests
         run: |
-          python -m unittest discover tests  # Runs all tests in the "test" directory    
+          python -m unittest discover tests  # Runs all tests in the "test" directory
+
+      - name: Convert shallow clone to full clone
+        run: git fetch --unshallow || true
+     
 
       - name: Exclude unnecessary files
         run: |
