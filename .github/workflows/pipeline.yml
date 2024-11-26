@@ -33,7 +33,6 @@ jobs:
       run: |
         # Configure DVC remote to use DagsHub as storage
         dvc remote add origin s3://dvc
-        dvc remote add -d dagshub-remote https://dagshub.com/<username>/<repo_name>.dvc
         dvc remote modify origin endpointurl https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.s3
         dvc remote modify origin --local access_key_id e93226059eb069c73f4c2738187b0a881fb403fa
         dvc remote modify origin --local secret_access_key e93226059eb069c73f4c2738187b0a881fb403fa
