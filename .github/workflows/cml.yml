@@ -42,17 +42,11 @@ jobs:
         run: |
           python -c "import pandas as pd; data = pd.read_csv('data/Turbine_Data.csv'); print(data.columns)" 
 
-      - name: Configure MLflow environment
-        env: |
-
-
-          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
-          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
-          
-          
       - name: 'Create CML report'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
         
           #PYTHONUNBUFFERED: 1 
           
