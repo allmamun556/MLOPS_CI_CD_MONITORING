@@ -2,72 +2,40 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   pipeline:
     runs-on: ubuntu-latest
 
     steps:
-    
-    # Checkout the repository
     - name: Checkout repository
       uses: actions/checkout@v3
-     
-    
-    # Set up Python environment
+      with:
+        lfs: true  # Ensures LFS files are downloaded
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-    
-    # Install dependencies
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install dvc[s3]  # Install DVC with the required remote (e.g., s3 or dagshub)
 
-    # Set up DVC (for DagsHub storage)
-    - name: Set up DVC
-      run: |
-        # Configure DVC remote to use DagsHub as storage
-    #    dvc remote add origin s3://dvc
-        dvc remote add -d dagshub-remote https://dagshub.com/<username>/<repo_name>.dvc
-        dvc remote modify origin endpointurl https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.s3
-        dvc remote modify origin --local access_key_id e93226059eb069c73f4c2738187b0a881fb403fa
-        dvc remote modify origin --local secret_access_key e93226059eb069c73f4c2738187b0a881fb403fa
-
-    # Pull data from DVC remote (DagsHub)
-    - name: Pull data from DVC remote
-      run: |
-        dvc pull  # Pull data from the configured remote (DagsHub)
-
-    # Run Data Loader (data fetching)
     - name: Run Data Loader
       run: python src/data_loader.py
 
-    # Run Preprocessing (data preparation)
     - name: Run Preprocessing
       run: python src/preprocessing.py
 
-    # Train Model
     - name: Train Model
       run: python src/train_model.py
 
-    # Evaluate Model
     - name: Evaluate Model
       run: python src/evaluate_model.py
-
-    # Save model output to DVC (if necessary)
-    - name: Add model to DVC
-      run: |
-        dvc add model/model.pkl  # Add the trained model to DVC tracking
-        git add model/model.pkl.dvc
-        git commit -m "Add trained model"
-    
-    # Push model and data to DVC remote (DagsHub)
-    - name: Push data and model to DVC remote
-      run: |
-        dvc push  # Push data and model to the configured remote (DagsHub)
-
