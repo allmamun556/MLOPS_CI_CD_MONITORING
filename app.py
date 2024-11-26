@@ -1,15 +1,33 @@
 import streamlit as st
 import pandas as pd
 import pickle
-from sklearn.ensemble import RandomForestRegressor
+import requests
+import os
 
+# DAGsHub model URL
+MODEL_URL = "https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING/raw/main/data/model.pkl"
 
-model = pickle.load(open('random_forest_model.pkl', 'rb'))
+# Function to download the model if not already downloaded
+def download_model(url, save_path="model.pkl"):
+    if not os.path.exists(save_path):
+        with st.spinner("Downloading model..."):
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an error if the download fails
+            with open(save_path, "wb") as f:
+                f.write(response.content)
+            st.success("Model downloaded successfully!")
+    else:
+        st.info("Model already exists locally.")
 
+# Download the model
+download_model(MODEL_URL)
 
+# Load the model
+with open("model.pkl", "rb") as file:
+    model = pickle.load(file)
 
 # Streamlit App
-st.title("Wind Power Prediction")
+st.title("Wind Power Prediction New")
 
 # Sidebar for user input
 st.sidebar.header("Input Features")
