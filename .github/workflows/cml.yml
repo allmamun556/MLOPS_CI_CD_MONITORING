@@ -63,7 +63,6 @@ jobs:
           print('MLflow tracking URI and credentials are set.')
           "    
           
-        run: |
           jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 ml_training_notebook.ipynb
 
           echo "## Model Metrics" > report.md
