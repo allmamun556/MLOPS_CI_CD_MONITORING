@@ -1,4 +1,4 @@
-name: Deploy to the Hugging Faces Hub
+name: Deploy to the Hugging Faces Hubb
 
 on:
   push:
