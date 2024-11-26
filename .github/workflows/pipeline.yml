@@ -4,10 +4,6 @@ on:
   push:
     branches: [main]
 
-  # pull_request:
-  #   branches:
-  #     - main
-
 jobs:
   pipeline:
     runs-on: ubuntu-latest
@@ -17,8 +13,7 @@ jobs:
     # Checkout the repository
     - name: Checkout repository
       uses: actions/checkout@v3
-      #with:
-      #  lfs: true  # Ensures that LFS files are downloaded if you're using Git LFS
+     
     
     # Set up Python environment
     - name: Set up Python
