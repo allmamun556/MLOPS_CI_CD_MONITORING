@@ -58,7 +58,21 @@ jobs:
 
       # Step 8: Ensure full Git history (convert shallow clone)
       # - name: Ensure full Git history
-      #   run: git fetch --unshallow || true    
+      #   run: git fetch --unshallow || true  
+
+      - name: Git Config
+        run: |
+          git config user.name allmamun556
+          git config user.email allmamun556@gmail.com  
+          
+      - name: Install dependenciess
+        run: |
+          git lfs install
+          git lfs track "*.ipynb"
+          git add .gitattributes notebooks/ml_training_notebook.ipynb
+          git commit -m "Track large files with Git LFS"
+          git push origin main
+    
 
       - name: Push to Hugging Face Hub
 
