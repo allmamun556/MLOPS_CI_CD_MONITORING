@@ -52,7 +52,7 @@ jobs:
       run: python src/train.py
 
     - name: Evaluate Model
-      run: python src/evaluate_model.py
+      run: python src/evalute_model.py
 
     # Save model output to DVC (if necessary)
     - name: Add model to DVC
