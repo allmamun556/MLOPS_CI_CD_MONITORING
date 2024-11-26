@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@v3
  
       - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.8'
-        
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
       # Remove large files to prevent push errors
       - name: Install dependenciess
         run: |
