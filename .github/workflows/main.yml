@@ -18,7 +18,7 @@ jobs:
  
 
       # Remove large files to prevent push errors
-      - name: Install dependencies
+      - name: Install dependenciess
         run: |
           pip install pandas  # Install pandas if not in requirements.txt
           pip install dvc[s3] 
