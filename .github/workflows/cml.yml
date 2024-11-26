@@ -40,7 +40,21 @@ jobs:
         
       - name: Check Data Columns
         run: |
-          python -c "import pandas as pd; data = pd.read_csv('data/Turbine_Data.csv'); print(data.columns)"    
+          python -c "import pandas as pd; data = pd.read_csv('data/Turbine_Data.csv'); print(data.columns)" 
+
+      - name: Configure MLflow environment
+        env:
+          MLFLOW_TRACKING_URI: "https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.mlflow"
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+        run: |
+          python -c "
+          import os, mlflow;
+          mlflow.set_tracking_uri(os.getenv('MLFLOW_TRACKING_URI'));
+          os.environ['MLFLOW_TRACKING_USERNAME'] = os.getenv('MLFLOW_TRACKING_USERNAME');
+          os.environ['MLFLOW_TRACKING_PASSWORD'] = os.getenv('MLFLOW_TRACKING_PASSWORD');
+          print('MLflow tracking URI and credentials are set.')
+          "      
           
       - name: 'Create CML report'
         env:
