@@ -12,8 +12,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          lfs: true  # This ensures that Git LFS files are downloaded
+      
 
       - uses: actions/setup-python@v4
         with:
