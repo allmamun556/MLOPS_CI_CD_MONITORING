@@ -49,7 +49,19 @@ jobs:
       run: python src/preprocessing.py
 
     - name: Train Model
-      run: python src/train_model.py
+      run: python src/train.py
 
     - name: Evaluate Model
       run: python src/evaluate_model.py
+
+    # Save model output to DVC (if necessary)
+    - name: Add model to DVC
+      run: |
+        dvc add data  # Add the trained model to DVC tracking
+        git add data.dvc
+        git commit -m "Add trained model"
+    
+    # Push model and data to DVC remote (DagsHub)
+    - name: Push data and model to DVC remote
+      run: |
+        dvc push -r origin  # Push data and model to the configured remote (DagsHub)  
