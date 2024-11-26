@@ -59,4 +59,6 @@ jobs:
 
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push --force https://mamunds:$HF_TOKEN@huggingface.co/spaces/mamunds/mlops main
+        run: |
+          git remote set-url origin https://mamunds:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/mamunds/mlops
+          git push --force origin main
