@@ -55,6 +55,11 @@ jobs:
       run: python src/evalute_model.py
 
     # Save model output to DVC (if necessary)
+    - name: Git Config
+      run: |
+        git config user.name allmamun556
+        git config user.email allmamun556@gmail.com
+
     - name: Add model to DVC
       run: |
         dvc add data  # Add the trained model to DVC tracking
