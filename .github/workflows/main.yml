@@ -53,8 +53,8 @@ jobs:
           git commit -m "Exclude unnecessary files and folders" || true
 
       # Step 8: Ensure full Git history (convert shallow clone)
-      - name: Ensure full Git history
-        run: git fetch --unshallow || true    
+      # - name: Ensure full Git history
+      #   run: git fetch --unshallow || true    
 
       - name: Push to Hugging Face Hub
 
