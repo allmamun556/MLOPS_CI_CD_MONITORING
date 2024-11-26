@@ -1,5 +1,5 @@
 # .github/workflows/cml.yaml
-name: CML Report and Experiment tracking
+name: CML Report
 permissions:
   id-token: write
   contents: write
@@ -12,7 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
 
       - uses: actions/setup-python@v4
         with:
@@ -48,21 +47,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         
           #PYTHONUNBUFFERED: 1 
-
-      - name: Configure MLflow environment
-        env:
-          MLFLOW_TRACKING_URI: "https://dagshub.com/allmamun556/MLOPS_CI_CD_MONITORING.mlflow"
-          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
-          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
-        run: |
-          python -c "
-          import os, mlflow;
-          mlflow.set_tracking_uri(os.getenv('MLFLOW_TRACKING_URI'));
-          os.environ['MLFLOW_TRACKING_USERNAME'] = os.getenv('MLFLOW_TRACKING_USERNAME');
-          os.environ['MLFLOW_TRACKING_PASSWORD'] = os.getenv('MLFLOW_TRACKING_PASSWORD');
-          print('MLflow tracking URI and credentials are set.')
-          "    
           
+        run: |
           jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 ml_training_notebook.ipynb
 
           echo "## Model Metrics" > report.md
