@@ -33,7 +33,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          python -m unittest discover tests  # Runs all tests in the "test" directory    
+          python -m unittest discover src  # Runs all tests in the "test" directory    
 
       - name: Remove large files
         run: |
