@@ -51,6 +51,10 @@ jobs:
           git add .gitignore
           git commit -m "Exclude large files from push" || true
 
+      # Step 8: Ensure full Git history (convert shallow clone)
+      - name: Ensure full Git history
+        run: git fetch --unshallow || true    
+
       - name: Push to Hugging Face Hub
 
         env:
