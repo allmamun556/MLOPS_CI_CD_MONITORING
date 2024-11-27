@@ -1,2 +1,0 @@
-Accuracy: 0.82
-Loss: 0.20
