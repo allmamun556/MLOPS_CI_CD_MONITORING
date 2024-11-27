@@ -47,43 +47,43 @@ jobs:
         run: |
           python -m unittest discover tests  # Runs all tests in the "test" directory
 
-      # Step 7: Exclude `notebooks` folder and other large files
-      - name: Exclude unnecessary files
-        run: |
-          echo "notebooks/" >> .gitignore  # Add notebooks folder to .gitignore
-          git rm -r --cached notebooks || true  # Remove from Git cache if already tracked
-          git add .gitignore
-          git commit -m "Exclude notebooks folder from tracking" || true
+      # # Step 7: Exclude `notebooks` folder and other large files
+      # - name: Exclude unnecessary files
+      #   run: |
+      #     echo "notebooks/" >> .gitignore  # Add notebooks folder to .gitignore
+      #     git rm -r --cached notebooks || true  # Remove from Git cache if already tracked
+      #     git add .gitignore
+      #     git commit -m "Exclude notebooks folder from tracking" || true
 
-      # Step 8: Convert shallow clone to full clone (if necessary)
-      - name: Convert shallow clone to full clone
-        run: git fetch --unshallow || true
+      # # Step 8: Convert shallow clone to full clone (if necessary)
+      # - name: Convert shallow clone to full clone
+      #   run: git fetch --unshallow || true
 
-      # Step 8: Ensure full Git history (convert shallow clone)
-      # - name: Ensure full Git history
-      #   run: git fetch --unshallow || true  
+      # # Step 8: Ensure full Git history (convert shallow clone)
+      # # - name: Ensure full Git history
+      # #   run: git fetch --unshallow || true  
 
-      - name: Git Config
-        run: |
-          git config user.name allmamun556
-          git config user.email allmamun556@gmail.com  
+      # - name: Git Config
+      #   run: |
+      #     git config user.name allmamun556
+      #     git config user.email allmamun556@gmail.com  
 
-      - name: Install dependenciess
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git lfs install
-          pip install huggingface_hub
-          huggingface-cli lfs-enable-largefiles .
-          git lfs track "*.ipynb"
-          git commit -m "Track large files with Git LFS"
-          git push origin main
+      # - name: Install dependenciess
+      #   env:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |S
+      #     git lfs install
+      #     pip install huggingface_hub
+      #     huggingface-cli lfs-enable-largefiles .
+      #     git lfs track "*.ipynb"
+      #     git commit -m "Track large files with Git LFS"
+      #     git push origin main
     
 
-      - name: Push to Hugging Face Hub
+      # - name: Push to Hugging Face Hub
 
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          git remote set-url origin https://mamunds:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/mamunds/mlops
-          git push --force origin main
+      #   env:
+      #     HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      #   run: |
+      #     git remote set-url origin https://mamunds:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/mamunds/mlops
+      #     git push --force origin main
