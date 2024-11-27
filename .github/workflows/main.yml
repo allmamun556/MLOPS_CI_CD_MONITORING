@@ -75,8 +75,9 @@ jobs:
           git lfs install
           pip install huggingface_hub
           huggingface-cli lfs-enable-largefiles .
+          git log --all -- '**notebooks/ml_training_notebook.ipynb'
+
           git lfs track "*.ipynb"
-          #git add .gitattributes notebooks/ml_training_notebook.ipynb
           git commit -m "Track large files with Git LFS"
           git push origin main
     
