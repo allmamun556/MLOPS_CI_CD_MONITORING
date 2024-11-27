@@ -9,35 +9,20 @@ app_file: app.py
 pinned: false
 ---
 
-# MLOPS_CI_CD_MONITORING
-# Second
-# Data Link
-# https://www.kaggle.com/code/pedrorichena/modeling-wind-power-forecasting
+# CML Report Workflow
 
-# Continuous Machine Learning Workflow (`cml.yml`)
+This `cml.yml` file is a GitHub Actions workflow designed to automate machine learning reporting with Continuous Machine Learning (CML). Triggered on push events, it sets up an environment with Python and DVC for dependency management and data versioning. It pulls data from a DVC remote (e.g., DagsHub), executes an ML training Jupyter notebook, generates a metrics report, and posts the results as a comment on the relevant pull request. The workflow uses secrets for secure integration with remote storage and MLflow tracking, ensuring seamless model development and reporting.
 
-This repository includes a GitHub Actions workflow file (`cml.yml`) to automate ML workflows using Continuous Machine Learning (CML). 
 
-## Workflow Overview
-The `cml.yml` file performs the following tasks:
-- **Environment Setup**:
-  - Runs on `ubuntu-latest`.
-  - Checks out the repository and sets up Python (`3.x`) with necessary dependencies.
-  - Installs and configures DVC for remote storage (e.g., DagsHub with S3 support).
-- **Data Management**:
-  - Pulls data from the DVC remote and validates the dataset structure (e.g., columns in the CSV file).
-- **Model Training and Reporting**:
-  - Executes a Jupyter notebook for ML training and logs model metrics.
-  - Generates a CML report with key metrics and posts it as a comment on the relevant pull request.
 
-## Secrets
-The workflow uses the following GitHub Secrets:
-- `DVC_ACCESS_KEY_ID` and `DVC_SECRET_ACCESS_KEY` for accessing DVC remote storage.
-- `MLFLOW_TRACKING_USERNAME` and `MLFLOW_TRACKING_PASSWORD` for MLflow tracking.
-- `GITHUB_TOKEN` for authentication during report generation.
+# CI/CD Pipeline
 
-## How to Use
-1. Place the `cml.yml` file in `.github/workflows/` within your repository.
-2. Ensure the required secrets are added to your repository settings.
-3. Push changes to trigger the workflow and automate your ML tasks.
+This `pipeline.yml` is a GitHub Actions workflow to automate CI/CD for machine learning projects. It triggers on pushes or pull requests to the `main` branch, setting up Python (3.8), installing dependencies, and configuring DVC for remote storage with DagsHub. The workflow automates data loading, preprocessing, model training, evaluation, and versioning by pushing the trained model and data to DVC remote storage, ensuring efficient and reproducible ML workflows.
+
+
+# Sync to Hugging Face Hub
+
+This `main.yml` is a GitHub Actions workflow designed to synchronize a repository with the Hugging Face Hub. Triggered by pushes to the `master` branch or manually via the Actions tab, it checks out the repository with Git LFS enabled and securely pushes changes to the Hugging Face Hub using a personal access token stored as a GitHub secret (`HF_TOKEN`). This workflow ensures seamless integration and updates to the Hugging Face platform.
+
+
 
