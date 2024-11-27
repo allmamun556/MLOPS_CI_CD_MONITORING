@@ -44,18 +44,18 @@ jobs:
           dvc pull -r origin  # Pull data from the configured remote (DagsHub)         
 
       - name: Run unit tests
+        id: run_tests  # Assign an ID to capture test results
         run: |
           python -m unittest discover tests  # Runs all tests in the "test" directory
         continue-on-error: true  # Allow the workflow to continue if tests fail
 
-      # Decide on model retraining based on test results
+      # Decide on model retraining
       - name: Decide model retraining
         run: |
           if [ "${{ steps.run_tests.outcome }}" == "failure" ]; then
             echo "Unit tests failed. Retraining the model..."
-            python retrain_model.py  # Replace with your retraining script
           else
-            echo "All unit tests passed. Model retraining is not necessary."  
+            echo "All unit tests passed. Model retraining is not necessary." 
 
       # # Step 7: Exclude `notebooks` folder and other large files
       # - name: Exclude unnecessary files
