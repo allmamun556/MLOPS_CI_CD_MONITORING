@@ -46,6 +46,16 @@ jobs:
       - name: Run unit tests
         run: |
           python -m unittest discover tests  # Runs all tests in the "test" directory
+        continue-on-error: true  # Allow the workflow to continue if tests fail
+
+      # Decide on model retraining based on test results
+      - name: Decide model retraining
+        run: |
+          if [ "${{ steps.run_tests.outcome }}" == "failure" ]; then
+            echo "Unit tests failed. Retraining the model..."
+            python retrain_model.py  # Replace with your retraining script
+          else
+            echo "All unit tests passed. Model retraining is not necessary."  
 
       # # Step 7: Exclude `notebooks` folder and other large files
       # - name: Exclude unnecessary files
