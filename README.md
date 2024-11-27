@@ -11,13 +11,13 @@ pinned: false
 
 # CML Report Workflow
 
-This `cml.yml` file is a GitHub Actions workflow designed to automate machine learning reporting with Continuous Machine Learning (CML). Triggered on push events, it sets up an environment with Python and DVC for dependency management and data versioning. It pulls data from a DVC remote (e.g., DagsHub), executes an ML training Jupyter notebook, generates a metrics report, and posts the results as a comment on the relevant pull request. The workflow uses secrets for secure integration with remote storage and MLflow tracking, ensuring seamless model development and reporting.
+This `cml.yml` file is a GitHub Actions workflow designed to automate machine learning reporting with Continuous Machine Learning (CML). Triggered on push events, it sets up an environment with Python and DVC for dependency management and data versioning. It pulls data from a DVC remote (e.g., DagsHub), executes an ML training Jupyter notebook, generates a metrics report, and posts the results as a comment on the relevant pull request. The workflow uses secrets for secure integration with remote storage and MLflow tracking, ensuring seamless model development and reporting.It also track the experiment when runs the notebook file. 
 
 
 
 # CI/CD Pipeline
 
-This `pipeline.yml` is a GitHub Actions workflow to automate CI/CD for machine learning projects. It triggers on pushes or pull requests to the `main` branch, setting up Python (3.8), installing dependencies, and configuring DVC for remote storage with DagsHub. The workflow automates data loading, preprocessing, model training, evaluation, and versioning by pushing the trained model and data to DVC remote storage, ensuring efficient and reproducible ML workflows.
+This `pipeline.yml` is a GitHub Actions workflow to automate CI/CD for machine learning projects. It triggers on pushes or pull requests to the `main` branch, setting up Python, installing dependencies, and configuring DVC for remote storage with DagsHub. The workflow automates data loading, preprocessing, model training, evaluation, and versioning by pushing the trained model and data to DVC remote storage, ensuring efficient and reproducible ML workflows.
 
 
 # Sync to Hugging Face Hub
@@ -80,6 +80,98 @@ This notebook provides a comprehensive workflow for training, evaluating, and tr
 5. Review metrics, visualizations, and MLflow logs to compare model effectiveness.
 
 This notebook serves as a robust foundation for experimenting with and deploying machine learning models, with the added benefit of experiment tracking using MLflow.
+
+# Data Loader Script
+
+This `data_loader.py` script is designed for loading and cleaning raw turbine data, ensuring it is ready for analysis or machine learning workflows.
+
+## Key Features
+- **Data Cleaning**: 
+  - Renames the column `'Unnamed: 0'` to `'Time'` for better clarity.
+  - Saves the cleaned data to a specified output path in CSV format.
+- **Ease of Use**: Can be executed directly or integrated into larger data pipelines for preprocessing.
+
+## How to Use
+1. Ensure the raw data file is located at the specified input path (default: `data/Turbine_Data.csv`).
+2. Run the script: 
+   ```bash
+   python data_loader.py
+
+
+
+# Data Preprocessing Script
+
+This `preprocessing.py` script handles the preprocessing of turbine data, preparing it for analysis or machine learning by cleaning, handling missing values, and filtering features.
+
+## Key Features
+- **Data Cleaning**:
+  - Drops unnecessary columns such as `ControlBoxTemperature`, `WTG`, `GeneratorWinding2Temperature`, and others.
+  - Removes rows with excessive missing values.
+- **Feature Selection**:
+  - Computes a correlation matrix to identify features with low correlation to `ActivePower` (threshold: 0.3) and removes them.
+- **Missing Value Handling**:
+  - Fills missing values using interpolation for continuous features and median values for others.
+- **Output**:
+  - Saves the preprocessed data to a specified output path.
+
+## How to Use
+1. Ensure the cleaned data file is located at the specified input path (default: `data/cleaned_data.csv`).
+2. Run the script:
+   ```bash
+   python preprocessing.py
+# Model Training Script
+
+This `train.py` script trains a Random Forest model to predict turbine `ActivePower` using preprocessed turbine data.
+
+## Key Features
+- **Data Loading**: Reads the preprocessed data from the specified file.
+- **Feature and Target Selection**: Separates the dataset into features and target (`ActivePower`) for model training.
+- **Train-Test Split**: Splits the data into training and testing sets (80% training, 20% testing).
+- **Model Training**: Trains a Random Forest Regressor on the training data.
+- **Model Evaluation**: Evaluates the model using Mean Squared Error (MSE) on the test set.
+- **Model Saving**: Saves the trained model as `model.pkl` for future predictions.
+
+## How to Use
+1. Ensure the preprocessed data file is available at the specified input path (default: `data/preprocessed_data.csv`).
+2. Run the script:
+   ```bash
+   python train.py
+
+# Model Evaluation Script
+
+This `evalute_model.py` script evaluates the performance of a trained Random Forest model on turbine data using standard regression metrics.
+
+## Key Features
+- **Data and Model Loading**: 
+  - Loads the preprocessed data and the trained model from specified file paths.
+- **Predictions**: Uses the model to predict `ActivePower` based on the provided features.
+- **Evaluation Metrics**:
+  - Mean Squared Error (MSE): Measures average squared prediction error.
+  - Mean Absolute Error (MAE): Measures average absolute prediction error.
+  - R² Score: Indicates how well predictions align with actual values.
+
+## How to Use
+1. Ensure the preprocessed data (`data/preprocessed_data.csv`) and trained model (`data/model.pkl`) are available.
+2. Run the script:
+   ```bash
+   python evalute_model.py
+
+
+# Model Testing Script
+
+This `test_model.py` script contains unit tests to validate the functionality of data loading and preprocessing steps for turbine data. It serves as a starting point for implementing more extensive testing.
+
+## Key Features
+- **Unit Testing Framework**: Built using Python's `unittest` module for easy integration and extensibility.
+- **Current Test**:
+  - **`test_load_data`**: Verifies that the turbine data is correctly loaded from a CSV file and checks that it has the expected number of columns (22).
+- **Extensibility**: Placeholder comments indicate where additional test cases can be added in the future.
+
+## How to Use
+1. Ensure the raw turbine data file is available at `data/Turbine_Data.csv`.
+2. Run the tests:
+   ```bash
+   python test_model.py
 
 
 
