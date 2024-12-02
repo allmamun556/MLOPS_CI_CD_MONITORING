@@ -57,7 +57,7 @@ jobs:
           else
             echo "All unit tests passed. Model retraining is not necessary." 
           fi  
-
+      # This hugging face deployment part is commented, as hugging face does not allow to push large large file more than 10Mb
       # # Step 7: Exclude `notebooks` folder and other large files
       # - name: Exclude unnecessary files
       #   run: |
