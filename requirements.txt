@@ -1,7 +1,7 @@
 numpy 
 pandas 
 matplotlib 
-mlflow==1.26.1
+mlflow
 tensorflow
 seaborn
 scikit-learn
